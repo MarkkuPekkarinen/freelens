@@ -26,3 +26,19 @@ export const extensionLoaderSetIsEnabledChannel = "extension-loader:set-is-enabl
  * segment on the scheme, main with a query on a `file:` URL.
  */
 export const extensionLoaderReloadDevelopmentChannel = "extension-loader:reload-development";
+
+/**
+ * The extensions which failed to load in main, as `[id, failure]` entries: a
+ * request for the current state, and a broadcast whenever it changes. Main is
+ * the only writer of its failures, and a renderer keeps what it receives apart
+ * from its own, so neither process's failures can overwrite the other's.
+ */
+export const extensionLoaderLoadFailuresFromMainChannel = "extension-loader:main:load-failures";
+
+/**
+ * A renderer asking main to answer once one extension is disabled and torn
+ * down there: no instance, no load in flight and no `onDeactivate` still
+ * running. Main answers out of its own loader state, which a renderer has no
+ * copy of, and rejects when the teardown does not finish in time.
+ */
+export const extensionLoaderTornDownChannel = "extension-loader:torn-down";
